@@ -20,25 +20,27 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    //ukuran layar
+    // Ukuran layar
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          
           // AppBar
           Appbarwidget(),
 
           Padding(
             padding: EdgeInsets.only(
-              top: 20,
-              left: 16,
+              top: screenHeight * 0.01,
+              left: screenWidth * 0.02,
             ),
             child: Text(
               "Categories",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: screenWidth * 0.03,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -50,19 +52,19 @@ class _HomepageState extends State<Homepage> {
           // All Food Section
           Padding(
             padding: EdgeInsets.only(
-              top: 20,
-              left: 16,
+              top: screenHeight * 0.01,
+              left: screenWidth * 0.02,
             ),
             child: Text(
               "All food",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: screenWidth * 0.03,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
 
-          //Supabase
+          // Supabase
           Expanded(
             child: FutureBuilder<List<dynamic>>(
               future: fetchData(),
@@ -78,12 +80,15 @@ class _HomepageState extends State<Homepage> {
 
                   // Responsif menggunakan GridView
                   return GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.01,
+                      vertical: screenHeight * 0.01,
+                    ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: screenWidth < 600 ? 2 : 4, // 2 kolom untuk layar kecil, 4 untuk besar
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 0.80, // Rasio lebar dan tinggi item
+                      crossAxisSpacing: screenWidth * 0.01,
+                      mainAxisSpacing: screenHeight * 0.03,
+                      childAspectRatio: 0.75, // Rasio lebar dan tinggi item
                     ),
                     itemCount: data.length,
                     itemBuilder: (context, index) {
@@ -102,30 +107,33 @@ class _HomepageState extends State<Homepage> {
                           ],
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
                                 alignment: Alignment.center,
-                                child: Image.asset('assets/burger.jpeg', height: 130),
+                                child: Image.asset(
+                                  'assets/burger.jpeg',
+                                  height: screenHeight * 0.10,
+                                ),
                               ),
-                              SizedBox(height: 8),
+                              SizedBox(height: screenHeight * 0.01),
                               Text(
                                 item['name'] ?? 'No name',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: screenWidth * 0.05,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              SizedBox(height: screenHeight * 0.01),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Rp. ${item['price'] ?? '0'}',
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: screenWidth * 0.03,
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -133,6 +141,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.add_circle_outline,
                                     color: Color.fromARGB(217, 227, 111, 10),
+                                    size: screenWidth * 0.03,
                                   ),
                                 ],
                               ),
@@ -151,3 +160,4 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
+ 

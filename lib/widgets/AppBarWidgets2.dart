@@ -6,18 +6,25 @@ import 'package:stharbak_mart/widgets/BarBawah.dart';
 class Appbarwidgets2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan ukuran layar
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      padding: EdgeInsets.symmetric(
+        vertical: screenHeight * 0.02,
+        horizontal: screenWidth * 0.04,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
             onTap: () {},
             child: Container(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(screenWidth * 0.02),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.05),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -41,10 +48,10 @@ class Appbarwidgets2 extends StatelessWidget {
           InkWell(
             onTap: () {},
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(screenWidth * 0.02),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.05),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey,
@@ -53,7 +60,10 @@ class Appbarwidgets2 extends StatelessWidget {
                       offset: Offset(0, 3),
                     )
                   ]),
-              child: Icon(Icons.account_circle),
+              child: Icon(
+                Icons.account_circle,
+                size: screenWidth * 0.07,
+              ),
             ),
           )
         ],

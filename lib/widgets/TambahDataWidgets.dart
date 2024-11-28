@@ -39,18 +39,21 @@ class _ProductFormState extends State<ProductForm> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: ListView(
         children: [
           Appbarwidgets2(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(screenWidth * 0.04),
             child: Center(
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(screenWidth * 0.04),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.08),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black12,
@@ -63,16 +66,20 @@ class _ProductFormState extends State<ProductForm> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //Nama Produk
+
+                      Text('ADD NEW DATA', style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.045),),
+                      SizedBox(height: screenHeight * 0.03),
+
+                      // Nama Produk
                       TextField(
                         controller: _nameController,
                         decoration: InputDecoration(
                             labelText: 'Nama Produk',
                             hintText: 'Masukan Nama Produk',
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20))),
+                                borderRadius: BorderRadius.circular(screenWidth * 0.05))),
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: screenHeight * 0.03),
 
                       // Harga Field
                       TextField(
@@ -81,18 +88,18 @@ class _ProductFormState extends State<ProductForm> {
                           labelText: 'Harga',
                           hintText: 'Masukan Harga',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: screenHeight * 0.03),
 
                       // Kategori Produk Dropdown
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           labelText: 'Kategori produk',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
                           ),
                         ),
                         value: 'Makanan',
@@ -110,31 +117,32 @@ class _ProductFormState extends State<ProductForm> {
                           // Handle dropdown change
                         },
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: screenHeight * 0.03),
 
                       // Image Picker Field (placeholder)
                       GestureDetector(
                         onTap: _pickImage,
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
+                              horizontal: screenWidth * 0.03, vertical: screenHeight * 0.02),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(_imageFile == null
-                                  ? 'Choose file'
-                                  : 'Image Selected'),
+                              Text(
+                                _imageFile == null ? 'Choose file' : 'Image Selected',
+                                style: TextStyle(fontSize: screenWidth * 0.04),
+                              ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: screenHeight * 0.05),
 
-                      //Button
+                      // Button
                       ElevatedButton(
                         onPressed: () async {
                           final name = _nameController.text;
@@ -146,27 +154,27 @@ class _ProductFormState extends State<ProductForm> {
                           });
 
                           Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BarBawah(),
-                          ),
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BarBawah(),
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           padding: EdgeInsets.symmetric(
-                            horizontal: 100,
-                            vertical: 20,
+                            horizontal: screenWidth * 0.3,
+                            vertical: screenHeight * 0.02,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
                           ),
                         ),
-                        
                         child: Text(
                           'Submit',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 17,
+                              fontSize: screenWidth * 0.045,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
