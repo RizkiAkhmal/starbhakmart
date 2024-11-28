@@ -3,8 +3,6 @@ import 'package:stharbak_mart/pages/AddPage.dart';
 import 'package:stharbak_mart/pages/HomePage.dart';
 import 'package:stharbak_mart/pages/CardPage.dart';
 
-
-
 class Barbawah extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,6 @@ class _NavbarwidgetState extends State<BarBawah> {
     Homepage(),
     Cardpage(),
     Addpage(),
-
   ];
 
   void onBarTapped(int index) {

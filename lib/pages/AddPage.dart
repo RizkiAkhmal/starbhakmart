@@ -5,311 +5,287 @@ import 'package:flutter/widgets.dart';
 import 'package:stharbak_mart/widgets/AppBarWidgets2.dart';
 import 'package:stharbak_mart/widgets/TambahDataWidgets.dart';
 
-
-
 class Addpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: ListView(
         children: [
-          
           //Button Add
           SingleChildScrollView(
-            child: Padding(padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Appbarwidgets2(),
-                  
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Appbarwidgets2(),
+
                   // Add Data
-                      Row(
-                        children: [
-
-                          ElevatedButton(
-                            child: Row(
-                            children: [
-                              Text('ADD',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          child: Row(children: [
+                            Text(
+                              'ADD',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            ),
-
-                              Icon(Icons.add,
+                            Icon(
+                              Icons.add,
                               color: Colors.white,
                               size: 16,
-                              ),
-                           
-                            ]
-                          ),
+                            ),
+                          ]),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context)=>Tambahdatawidgets()),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Tambahdatawidgets()),
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue)
-                          )
+                              backgroundColor: Colors.blue))
+                    ],
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Photo",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          "Nama Produk",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          "Harga",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          "Aksi",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                  ),
+
+                  //Kotak
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 9),
+                    child: Container(
+                      width: 600,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: Offset(0, 3),
+                          ),
                         ],
                       ),
-                    
-
-                Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Photo",
-                              style: TextStyle(fontSize: 15),
-                              
+                      child: Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              'assets/burger.jpeg',
+                              height: 80,
+                              width: 150,
                             ),
-                            Text(
-                              "Nama Produk",
-                              style: TextStyle(fontSize: 15),
-                              
-                            ),
-                            Text(
-                              "Harga",
-                              style: TextStyle(fontSize: 15),
-                              
-                            ),
-                            Text(
-                              "Aksi",
-                              style: TextStyle(fontSize: 15),
-                              
-                            ),
-                            
-                          ],
-                        ),
-                      ),Divider(
-                        color: Colors.black,
-                      ),
-
-
-                      //Kotak
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 9),
-                        child: Container(
-                          width: 600,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
                           ),
-                          child: Row(
-                            children: [
-                              Container(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/burger.jpeg',
-                            height: 80,
-                            width: 150,
-                            ),
-                        ),
-
-
-                        Container(
-                          width: 190,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Burger',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
+                          Container(
+                            width: 190,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      'Burger',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'Rp. 100.000',
+                                      style: TextStyle(
+                                        fontSize: 15,
                                       ),
-                                  ),
-
-                                  Text(
-                                'Rp. 100.000',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+                                    ),
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
                                     )
-                                ],
-                              ),
-                              
-                              
-                             
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              
-                              )
-                            ],
-                          ),
-                        ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 9),
-                        child: Container(
-                          width: 600,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/burger.jpeg',
-                            height: 80,
-                            width: 150,
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                )
+                              ],
                             ),
-                        ),
-                        Container(
-                          width: 190,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Burger',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                      ),
-                                  ),
-                                  Text(
-                                'Rp. 100.000',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              
-                              )
-                            ],
                           ),
-                        ),
-                            ],
-                          ),
-                        ),
+                        ],
                       ),
-                     
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 9),
-                        child: Container(
-                          width: 600,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/burger.jpeg',
-                            height: 80,
-                            width: 150,
-                            ),
-                        ),
-                        Container(
-                          width: 190,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Burger',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                      ),
-                                  ),
-                                  Text(
-                                'Rp. 100.000',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    )
-                                ],
-                              ),
-                              
-                              
-                             
-                             
-                            ],
-                          ),
+                    ),
+                  ),
 
-                          
-                        ),
-                            ],
+                  Divider(
+                    color: Colors.black,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 9),
+                    child: Container(
+                      width: 600,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: Offset(0, 3),
                           ),
-                        ),
+                        ],
                       ),
-              ],
-            ),
+                      child: Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              'assets/burger.jpeg',
+                              height: 80,
+                              width: 150,
+                            ),
+                          ),
+                          Container(
+                            width: 190,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      'Burger',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'Rp. 100.000',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Divider(
+                    color: Colors.black,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 9),
+                    child: Container(
+                      width: 600,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              'assets/burger.jpeg',
+                              height: 80,
+                              width: 150,
+                            ),
+                          ),
+                          Container(
+                            width: 190,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      'Burger',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'Rp. 100.000',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

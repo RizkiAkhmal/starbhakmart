@@ -1,21 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Appbarwidget extends StatelessWidget{
+class Appbarwidget extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
-    return Padding(padding: EdgeInsets.symmetric(
-      vertical: 15, 
-      horizontal: 15
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: (){},
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () {},
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
@@ -25,17 +23,15 @@ class Appbarwidget extends StatelessWidget{
                       blurRadius: 10,
                       offset: Offset(0, 3),
                     )
-                  ]
-                ),
-                child: Icon(CupertinoIcons.bars),
-              ),
+                  ]),
+              child: Icon(CupertinoIcons.bars),
             ),
-
-            InkWell(
-              onTap: (){},
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
+          ),
+          InkWell(
+            onTap: () {},
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
@@ -45,15 +41,12 @@ class Appbarwidget extends StatelessWidget{
                       blurRadius: 10,
                       offset: Offset(0, 3),
                     )
-                  ]
-                ),
-                child: Icon(Icons.account_circle),
-              ),
-            )
-
-          ],
-        ),
-      );
+                  ]),
+              child: Icon(Icons.account_circle),
+            ),
+          )
+        ],
+      ),
+    );
   }
-
 }
