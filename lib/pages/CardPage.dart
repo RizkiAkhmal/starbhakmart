@@ -71,7 +71,7 @@ class _CardpageState extends State<Cardpage> {
                               padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
                               child: Container(
                                 width: double.infinity,
-                                height: screenHeight * 0.15,
+                                height: screenHeight * 0.30,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(screenWidth * 0.03),
@@ -91,7 +91,7 @@ class _CardpageState extends State<Cardpage> {
                                       child: Image.asset(
                                         'assets/burger.jpeg',
                                         height: screenHeight * 0.1,
-                                        width: screenWidth * 0.2,
+                                        width: screenWidth * 0.20,
                                       ),
                                     ),
                                     Expanded(

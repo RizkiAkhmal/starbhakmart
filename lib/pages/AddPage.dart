@@ -1,10 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:stharbak_mart/widgets/AppBarWidgets2.dart';
 import 'package:stharbak_mart/widgets/TambahDataWidgets.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Addpage extends StatelessWidget {
+final supabase = Supabase.instance.client;
+
+class Addpage extends StatefulWidget {
+  const Addpage({super.key});
+
+  @override
+  State<Addpage> createState() => _AddpageState();
+}
+
+class _AddpageState extends State<Addpage> {
+  Future<List<dynamic>> fetchData() async {
+    final List<Map<String, dynamic>> response =
+        await supabase.from('Foodaas').select('*');
+    return response as List<dynamic>;
+  }
+
+  Future<void> deleteData(int id) async {
+    await supabase.from('Foodaas').delete().eq('id', id);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     // Mendapatkan ukuran layar
@@ -14,7 +34,6 @@ class Addpage extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          //Button Add
           SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
@@ -23,26 +42,28 @@ class Addpage extends StatelessWidget {
                 children: [
                   Appbarwidgets2(),
 
-                  // Add Data
+                  // Tombol Tambah Data
                   Row(
                     children: [
                       ElevatedButton(
-                        child: Row(children: [
-                          Text(
-                            'ADD',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.04,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        child: Row(
+                          children: [
+                            Text(
+                              'ADD',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: screenWidth * 0.01),
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: screenWidth * 0.05,
-                          ),
-                        ]),
+                            SizedBox(width: screenWidth * 0.01),
+                            Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: screenWidth * 0.05,
+                            ),
+                          ],
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -68,21 +89,37 @@ class Addpage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Photo",
-                          style: TextStyle(fontSize: screenWidth * 0.04),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Photo",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        Text(
-                          "Nama Produk",
-                          style: TextStyle(fontSize: screenWidth * 0.04),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            "Nama Produk",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        Text(
-                          "Harga",
-                          style: TextStyle(fontSize: screenWidth * 0.04),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Harga",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        Text(
-                          "Aksi",
-                          style: TextStyle(fontSize: screenWidth * 0.04),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Aksi",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ],
                     ),
@@ -92,209 +129,86 @@ class Addpage extends StatelessWidget {
                   ),
 
                   // Kotak Produk
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
-                    child: Container(
-                      width: double.infinity,
-                      height: screenHeight * 0.15,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(screenWidth * 0.03),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(screenWidth * 0.02),
-                            child: Image.asset(
-                              'assets/burger.jpeg',
-                              height: screenHeight * 0.12,
-                              width: screenWidth * 0.3,
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Burger',
-                                      style: TextStyle(
-                                          fontSize: screenWidth * 0.045,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      'Rp. 100.000',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.04,
+                  FutureBuilder<List<dynamic>>(
+                    future: fetchData(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<dynamic>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Text('No data found');
+                      } else {
+                        final List<dynamic> data = snapshot.data!;
+                        return Column(
+                          children: data.map((item) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenHeight * 0.01),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.all(screenWidth * 0.02),
+                                      child: Image.asset(
+                                        "assets/burger.jpeg",
+                                        height: screenWidth * 0.15,
+                                        width: screenWidth * 0.15,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                      size: screenWidth * 0.05,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Divider(
-                    color: Colors.black,
-                  ),
-
-                   // Kotak Produk
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
-                    child: Container(
-                      width: double.infinity,
-                      height: screenHeight * 0.15,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(screenWidth * 0.03),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(screenWidth * 0.02),
-                            child: Image.asset(
-                              'assets/burger.jpeg',
-                              height: screenHeight * 0.12,
-                              width: screenWidth * 0.3,
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Burger',
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      item['name'] ?? 'Tidak ada nama',
                                       style: TextStyle(
-                                          fontSize: screenWidth * 0.045,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      'Rp. 100.000',
-                                      style: TextStyle(
+                                        color: Colors.black,
                                         fontSize: screenWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                      size: screenWidth * 0.05,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Divider(
-                    color: Colors.black,
-                  ),
-
-                   // Kotak Produk
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
-                    child: Container(
-                      width: double.infinity,
-                      height: screenHeight * 0.15,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(screenWidth * 0.03),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(screenWidth * 0.02),
-                            child: Image.asset(
-                              'assets/burger.jpeg',
-                              height: screenHeight * 0.12,
-                              width: screenWidth * 0.3,
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Burger',
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      "Rp. ${item['price'] ?? '0'}",
                                       style: TextStyle(
-                                          fontSize: screenWidth * 0.045,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      'Rp. 100.000',
-                                      style: TextStyle(
+                                        color: Colors.black,
                                         fontSize: screenWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                      size: screenWidth * 0.05,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        CupertinoIcons.trash,
+                                        size: screenWidth * 0.06,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () async {
+                                        final id = item['id'];
+                                        await deleteData(id);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      }
+                    },
                   ),
-
-                  Divider(
-                    color: Colors.black,
-                  ),
-
                 ],
               ),
             ),

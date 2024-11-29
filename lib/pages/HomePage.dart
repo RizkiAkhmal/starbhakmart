@@ -87,8 +87,8 @@ class _HomepageState extends State<Homepage> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: screenWidth < 600 ? 2 : 4, // 2 kolom untuk layar kecil, 4 untuk besar
                       crossAxisSpacing: screenWidth * 0.01,
-                      mainAxisSpacing: screenHeight * 0.03,
-                      childAspectRatio: 0.75, // Rasio lebar dan tinggi item
+                      mainAxisSpacing: screenHeight * 0.01,
+                      childAspectRatio: 0.90, // Rasio lebar dan tinggi item
                     ),
                     itemCount: data.length,
                     itemBuilder: (context, index) {
@@ -115,7 +115,7 @@ class _HomepageState extends State<Homepage> {
                                 alignment: Alignment.center,
                                 child: Image.asset(
                                   'assets/burger.jpeg',
-                                  height: screenHeight * 0.10,
+                                  height: screenHeight * 0.20,
                                 ),
                               ),
                               SizedBox(height: screenHeight * 0.01),
