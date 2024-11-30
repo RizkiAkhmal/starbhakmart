@@ -1,315 +1,216 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-// import 'package:stharbak_mart/pages/CardPage.dart';
 import 'package:stharbak_mart/widgets/AppBarWidgets2.dart';
 import 'package:stharbak_mart/widgets/TambahDataWidgets.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+final supabase = Supabase.instance.client;
 
+class Addpage extends StatefulWidget {
+  const Addpage({super.key});
 
-class Addpage extends StatelessWidget {
+  @override
+  State<Addpage> createState() => _AddpageState();
+}
+
+class _AddpageState extends State<Addpage> {
+  Future<List<dynamic>> fetchData() async {
+    final List<Map<String, dynamic>> response =
+        await supabase.from('Foodaas').select('*');
+    return response as List<dynamic>;
+  }
+
+  Future<void> deleteData(int id) async {
+    await supabase.from('Foodaas').delete().eq('id', id);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan ukuran layar
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      
       body: ListView(
         children: [
-          
-          //Button Add
           SingleChildScrollView(
-            child: Padding(padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Appbarwidgets2(),
-                  
-                  // Add Data
-                      Row(
-                        children: [
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Appbarwidgets2(),
 
-                          ElevatedButton(
-                            child: Row(
-                            children: [
-                              Text('ADD',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            ),
-
-                              Icon(Icons.add,
-                              color: Colors.white,
-                              size: 16,
-                              ),
-                           
-                            ]
-                          ),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context)=>Tambahdatawidgets()),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue)
-                          )
-                        ],
-                      ),
-                    
-
-                Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
+                  // Tombol Tambah Data
+                  Row(
+                    children: [
+                      ElevatedButton(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Photo",
-                              style: TextStyle(fontSize: 15),
-                              
+                              'ADD',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            Text(
-                              "Nama Produk",
-                              style: TextStyle(fontSize: 15),
-                              
+                            SizedBox(width: screenWidth * 0.01),
+                            Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: screenWidth * 0.05,
                             ),
-                            Text(
-                              "Harga",
-                              style: TextStyle(fontSize: 15),
-                              
-                            ),
-                            Text(
-                              "Aksi",
-                              style: TextStyle(fontSize: 15),
-                              
-                            ),
-                            
                           ],
                         ),
-                      ),Divider(
-                        color: Colors.black,
-                      ),
-
-
-                      //Kotak
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 9),
-                        child: Container(
-                          width: 600,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Tambahdatawidgets()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.05,
+                            vertical: screenHeight * 0.01,
                           ),
-                          child: Row(
-                            children: [
-                              Container(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/burger.jpeg',
-                            height: 80,
-                            width: 150,
-                            ),
                         ),
+                      ),
+                    ],
+                  ),
 
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenHeight * 0.02,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Photo",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            "Nama Produk",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Harga",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Aksi",
+                            style: TextStyle(fontSize: screenWidth * 0.04),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                  ),
 
-                        Container(
-                          width: 190,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // Kotak Produk
+                  FutureBuilder<List<dynamic>>(
+                    future: fetchData(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<dynamic>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Text('No data found');
+                      } else {
+                        final List<dynamic> data = snapshot.data!;
+                        return Column(
+                          children: data.map((item) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenHeight * 0.01),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    'Burger',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
+                                  Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.all(screenWidth * 0.02),
+                                      child: Image.asset(
+                                        "assets/burger.jpeg",
+                                        height: screenWidth * 0.15,
+                                        width: screenWidth * 0.15,
+                                        fit: BoxFit.cover,
                                       ),
+                                    ),
                                   ),
-
-                                  Text(
-                                'Rp. 100.000',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    )
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      item['name'] ?? 'Tidak ada nama',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      "Rp. ${item['price'] ?? '0'}",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        CupertinoIcons.trash,
+                                        size: screenWidth * 0.06,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () async {
+                                        final id = item['id'];
+                                        await deleteData(id);
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
-                              
-                              
-                             
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              
-                              )
-                            ],
-                          ),
-                        ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 9),
-                        child: Container(
-                          width: 600,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/burger.jpeg',
-                            height: 80,
-                            width: 150,
-                            ),
-                        ),
-                        Container(
-                          width: 190,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Burger',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                      ),
-                                  ),
-                                  Text(
-                                'Rp. 100.000',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              
-                              )
-                            ],
-                          ),
-                        ),
-                            ],
-                          ),
-                        ),
-                      ),
-                     
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 9),
-                        child: Container(
-                          width: 600,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/burger.jpeg',
-                            height: 80,
-                            width: 150,
-                            ),
-                        ),
-                        Container(
-                          width: 190,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Burger',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                      ),
-                                  ),
-                                  Text(
-                                'Rp. 100.000',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    )
-                                ],
-                              ),
-                              
-                              
-                             
-                             
-                            ],
-                          ),
-
-                          
-                        ),
-                            ],
-                          ),
-                        ),
-                      ),
-              ],
-            ),
+                            );
+                          }).toList(),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
