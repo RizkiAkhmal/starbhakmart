@@ -67,6 +67,8 @@ class _CardpageState extends State<Cardpage> {
                         final List<dynamic> data = snapshot.data!;
                         return Column(
                           children: data.map((item) {
+                             final imageUrl = item['image_url'] ??
+                            'https://via.placeholder.com/150';
                             return Padding(
                               padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
                               child: Container(
@@ -88,10 +90,11 @@ class _CardpageState extends State<Cardpage> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.all(screenWidth * 0.02),
-                                      child: Image.asset(
-                                        'assets/burger.jpeg',
-                                        height: screenHeight * 0.1,
-                                        width: screenWidth * 0.20,
+                                      child: Image.network(
+                                        imageUrl,
+                                        errorBuilder: 
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.broken_image),
                                       ),
                                     ),
                                     Expanded(

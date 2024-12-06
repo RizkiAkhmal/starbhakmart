@@ -145,6 +145,8 @@ class _AddpageState extends State<Addpage> {
                         final List<dynamic> data = snapshot.data!;
                         return Column(
                           children: data.map((item) {
+                             final imageUrl = item['image_url'] ??
+                            'https://via.placeholder.com/150';
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: screenHeight * 0.01),
@@ -155,12 +157,13 @@ class _AddpageState extends State<Addpage> {
                                     child: Padding(
                                       padding:
                                           EdgeInsets.all(screenWidth * 0.02),
-                                      child: Image.asset(
-                                        "assets/burger.jpeg",
-                                        height: screenWidth * 0.15,
-                                        width: screenWidth * 0.15,
-                                        fit: BoxFit.cover,
-                                      ),
+                                      child: Image.network(
+                                        imageUrl,
+                                        errorBuilder:
+                                        (context, error, stackTrace) =>
+                                        const Icon(Icons.broken_image),
+                                      )
+                                      
                                     ),
                                   ),
                                   Expanded(

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stharbak_mart/pages/HomePage.dart';
 import 'package:stharbak_mart/widgets/AppBarWidgets2.dart';
@@ -24,17 +25,37 @@ class ProductForm extends StatefulWidget {
 
 class _ProductFormState extends State<ProductForm> {
   String _katagori = 'Makanan';
-  XFile? _imageFile;
+  // XFile? _imageFile;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  File? _imageFile;
 
-  Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? selectedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _imageFile = selectedImage;
-    });
+  Future pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _imageFile = File(image.path);
+      });
+    }
+  }
+
+  Future<String?> uploadImage(String path) async {
+    if (_imageFile == null) return null;
+
+    final fileName = DateTime.now().millisecondsSinceEpoch;
+    final uploadPath = 'uploads/$fileName';
+
+    final response =
+        await supabase.storage.from('Foodaas').upload(uploadPath, _imageFile!);
+
+    return supabase.storage.from('Foodaas').getPublicUrl(uploadPath);
+  }
+
+  Future<List<dynamic>> fetchData() async {
+    final response = await supabase.from('Foodaas').select('*');
+    return response as List<dynamic>;
   }
 
   @override
@@ -66,8 +87,12 @@ class _ProductFormState extends State<ProductForm> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
-                      Text('ADD NEW DATA', style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.045),),
+                      Text(
+                        'ADD NEW DATA',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * 0.045),
+                      ),
                       SizedBox(height: screenHeight * 0.03),
 
                       // Nama Produk
@@ -77,7 +102,8 @@ class _ProductFormState extends State<ProductForm> {
                             labelText: 'Nama Produk',
                             hintText: 'Masukan Nama Produk',
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(screenWidth * 0.05))),
+                                borderRadius:
+                                    BorderRadius.circular(screenWidth * 0.05))),
                       ),
                       SizedBox(height: screenHeight * 0.03),
 
@@ -88,7 +114,8 @@ class _ProductFormState extends State<ProductForm> {
                           labelText: 'Harga',
                           hintText: 'Masukan Harga',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
+                            borderRadius:
+                                BorderRadius.circular(screenWidth * 0.05),
                           ),
                         ),
                       ),
@@ -99,7 +126,8 @@ class _ProductFormState extends State<ProductForm> {
                         decoration: InputDecoration(
                           labelText: 'Kategori produk',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
+                            borderRadius:
+                                BorderRadius.circular(screenWidth * 0.05),
                           ),
                         ),
                         value: 'Makanan',
@@ -121,20 +149,32 @@ class _ProductFormState extends State<ProductForm> {
 
                       // Image Picker Field (placeholder)
                       GestureDetector(
-                        onTap: _pickImage,
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.03, vertical: screenHeight * 0.02),
+                            horizontal: screenWidth * 0.03,
+                            vertical: screenHeight * 0.015,
+                          ),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
+                            borderRadius:
+                                BorderRadius.circular(screenWidth * 0.05),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                _imageFile == null ? 'Choose file' : 'Image Selected',
-                                style: TextStyle(fontSize: screenWidth * 0.04),
+                              _imageFile != null
+                                  ? Flexible(
+                                      child: Image.file(
+                                        _imageFile!,
+                                        width: screenWidth * 0.3,
+                                        height: screenHeight * 0.15,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : const Text("No image selected"),
+                              ElevatedButton(
+                                onPressed: pickImage,
+                                child: const Text("Pick Image"),
                               ),
                             ],
                           ),
@@ -148,9 +188,13 @@ class _ProductFormState extends State<ProductForm> {
                           final name = _nameController.text;
                           final price = _priceController.text;
 
+                          var imageUrl = await uploadImage('uploads');
+                          if (imageUrl == null) return;
+
                           await supabase.from('Foodaas').insert({
                             'name': name,
                             'price': price,
+                            'image_url': imageUrl,
                           });
 
                           Navigator.push(
@@ -167,7 +211,8 @@ class _ProductFormState extends State<ProductForm> {
                             vertical: screenHeight * 0.02,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(screenWidth * 0.05),
+                            borderRadius:
+                                BorderRadius.circular(screenWidth * 0.05),
                           ),
                         ),
                         child: Text(

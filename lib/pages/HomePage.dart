@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stharbak_mart/widgets/AllFood.dart';
 import 'package:stharbak_mart/widgets/AppBarWidget.dart';
 import 'package:stharbak_mart/widgets/CatagoriesWidget.dart';
-import 'package:stharbak_mart/widgets/PopularItemsWidget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -28,7 +27,6 @@ class _HomepageState extends State<Homepage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           // AppBar
           Appbarwidget(),
 
@@ -40,7 +38,7 @@ class _HomepageState extends State<Homepage> {
             child: Text(
               "Categories",
               style: TextStyle(
-                fontSize: screenWidth * 0.03,
+                fontSize: screenWidth * 0.05,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -56,9 +54,9 @@ class _HomepageState extends State<Homepage> {
               left: screenWidth * 0.02,
             ),
             child: Text(
-              "All food",
+              "All Food",
               style: TextStyle(
-                fontSize: screenWidth * 0.03,
+                fontSize: screenWidth * 0.05,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -81,18 +79,20 @@ class _HomepageState extends State<Homepage> {
                   // Responsif menggunakan GridView
                   return GridView.builder(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.01,
-                      vertical: screenHeight * 0.01,
+                      horizontal: screenWidth * 0.02,
+                      vertical: screenHeight * 0.02,
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: screenWidth < 600 ? 2 : 4, // 2 kolom untuk layar kecil, 4 untuk besar
-                      crossAxisSpacing: screenWidth * 0.01,
-                      mainAxisSpacing: screenHeight * 0.01,
-                      childAspectRatio: 0.90, // Rasio lebar dan tinggi item
+                      crossAxisSpacing: screenWidth * 0.02,
+                      mainAxisSpacing: screenHeight * 0.02,
+                      childAspectRatio: 0.7, // Rasio lebar dan tinggi item
                     ),
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       final item = data[index];
+                      final imageUrl = item['image_url'] ?? 'https://via.placeholder.com/150';
+
                       return Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -107,15 +107,18 @@ class _HomepageState extends State<Homepage> {
                           ],
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
                                 alignment: Alignment.center,
-                                child: Image.asset(
-                                  'assets/burger.jpeg',
-                                  height: screenHeight * 0.20,
+                                child: Image.network(
+                                  imageUrl,
+                                  height: screenWidth * 0.32,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Icon(Icons.broken_image),
                                 ),
                               ),
                               SizedBox(height: screenHeight * 0.01),
@@ -133,7 +136,7 @@ class _HomepageState extends State<Homepage> {
                                   Text(
                                     'Rp. ${item['price'] ?? '0'}',
                                     style: TextStyle(
-                                      fontSize: screenWidth * 0.03,
+                                      fontSize: screenWidth * 0.04,
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -141,7 +144,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.add_circle_outline,
                                     color: Color.fromARGB(217, 227, 111, 10),
-                                    size: screenWidth * 0.03,
+                                    size: screenWidth * 0.06,
                                   ),
                                 ],
                               ),
@@ -160,4 +163,3 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
- 
